@@ -1,0 +1,65 @@
+# 데이터 작업을 쉽고 직관적으로 할 수 있도록 설계된 빠르고 유연한 데이터 구조를 제공하는 모듈
+!pip install pandas
+import pandas as pd
+
+# column
+df = pd.read_csv('http://bit.ly/ds-korean-idol')
+new_column = ['name', 'group', 'company', 'gender', 'birthday', 'height', 'blood', 'brand']
+df.columns = new_column
+
+# row
+df.info()
+# 기본적인 row(행)의 정보와 데이터타입을 리턴
+# object = 문자열
+# float64 = 실수
+# int64 = 정수
+
+# 원하는 갯수의 데이터 보기
+* head(): 상위 5개의 row를 출력
+* head(n): 상위 n개의 row를 출력
+* tail(): 하위 5개의 row를 출력
+* tail(n): 하위 n개의 row를 출력
+
+# index로 오름차순 정렬
+df.sort_index()
+# index로 내림차순 정렬
+df.sort_index(ascending = False)
+# 값에 따른 정렬(오름차순)
+df.sort_values(by = 'height')
+# Nan을 가장 위로 올림
+df.sort_values(by = 'height', na_position = 'first')
+# 1차 정렬: 키(내림차순), 2차 정렬: 브랜드(오름차순)
+df.sort_values(by = ['height', 'brand'], ascending = [False, True], na_position = 'first')
+
+# column으로 데이터 다루기
+df[:3] 
+df.loc[:, 'name']
+df.loc[:3, 'name'] # index 3을 포함
+df.loc[:, ['name', 'height']]
+df.iloc[:, [0, 2]] # index로 가져옴
+
+# boolean indexing
+df.loc[df['height'] >= 180, ['name', 'birthday', 'blood']]
+# 결측값인지 아닌지 여부를 판단
+df.isna()
+df.isnull()
+# isin 활용
+company = ['플레디스', 'SM']
+df['company'].isin(company)
+
+# row 추가
+# dict 형태의 데이터를 만들어주고 append() 함수를 사용하여 데이터 추가
+# 반드시 ignore_index = True 옵션을 추가해야 에러가 나지 않음
+df = df.append({'이름': '김사과', '그룹':'애플', '소속사':'apple', '성별':'여자', 
+           '생년월일':'2000-01-01', '키':160, '혈액형':'A', '브랜드평판지수':12345678}, ignore_index = True)
+# column 추가
+df['국적'] = '대한민국'
+
+# 통계값 다루기
+df.describe()
+df['키'].sum() # count, mean, max, min, var, std
+
+# groupby는 데이터를 그룹으로 묶어 분석할 때 사용
+# 혈액형별로 그룹을 맺어 키의 평균값을 확인
+df.groupby(['혈액형','성별'])['키'].mean()
+
