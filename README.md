@@ -1,0 +1,2 @@
+# PythonAI
+a study record
