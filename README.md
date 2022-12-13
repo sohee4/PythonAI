@@ -5,7 +5,6 @@ a study record
 
 ### 1. [데이터 분석]
 >Numpy
->
 >Pandas
 
 ---
