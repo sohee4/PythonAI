@@ -12,7 +12,9 @@ a study record
 
 * Recursive call
 
-* BFS/DFS
+* BFS
+
+* DFS
 
 ---
 
