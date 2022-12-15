@@ -4,9 +4,9 @@ a study record
 </br>
 
 ### 1. 자료구조와 알고리즘 
->
->
->
+* Linked List
+
+* 
 
 
 ---
@@ -14,9 +14,9 @@ a study record
 
 
 ### 2. 데이터 분석
->Numpy
->
->Pandas
+* Numpy
+
+* Pandas
 
 
 
@@ -26,10 +26,9 @@ a study record
 
 
 ### 3. 머신러닝과 딥러닝
->
->
->
+*
 
+*
 
 
 ---
@@ -37,8 +36,7 @@ a study record
 
 
 ### 4. OpenCV를 활용한 AI
->
->
->
+*
 
+*
 
