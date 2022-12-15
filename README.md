@@ -1,7 +1,5 @@
-# PythonAI
-a study record
+# PythonAI - a study record
 
-</br>
 
 ### 1. 자료구조와 알고리즘 
 * Linked List
