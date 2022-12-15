@@ -1,0 +1,97 @@
+# 데이터에서 최대값과 최소값을 빠르게 찾기 위해 고안된 완전 이진 트리(Complete Binary Tree)
+# 완전 이진 트리: 노드를 삽입할 때 최하단 왼쪽 노드부터 차례대로 삽입하는 트리
+# 힙을 사용하는 이유:
+# 배열에 데이터를 넣고 최대값, 최소값을 찾으려면 시간이 많이 걸릴 수 있음
+# 힙에 데이터를 넣고 최대값, 최소값을 찾으면 시간이 적게 소모됨
+# 우선순위 큐와 같이 최대값 또는 최소값을 빠르게 찾아야 하는 자료구조 및 알고리즘 구현 등에 활용됨
+
+# 힙은 최대값을 구하기 위한 구조(최대 힙, Max Heap)와, 최소값을 구하기 위한 구조(최소 힙, Min Heap)로 분류할 수 있음
+# 힙은 다음과 같이 두 가지 조건을 가지고 있는 자료구조임
+# 각 노드의 값은 해당 노드의 자식 노드가 가진 값보다 크거나 같다.(최대 힙인 경우)
+# 완전 이진 트리 형태를 가짐
+
+class Heap:
+    def __init__(self, data):
+        self.heap_array = list()
+        self.heap_array.append(None) 
+        self.heap_array.append(data)
+    
+    def insert(self, data):
+        if len(self.heap_array) == 0:
+            self.heap_array.append(None)
+            self.heap_array.append(data)
+            return True
+        self.heap_array.append(data)
+        inserted_idx = len(self.heap_array) - 1
+
+        while self.move_up(inserted_idx):
+            parent_idx = inserted_idx // 2
+            self.heap_array[inserted_idx], self.heap_array[parent_idx] = self.heap_array[parent_idx], self.heap_array[inserted_idx]
+            inserted_idx = parent_idx
+
+        return True
+    
+    def move_up(self, inserted_idx):
+        if inserted_idx <= 1:
+            return False
+        parent_idx = inserted_idx // 2
+        if self.heap_array[inserted_idx] > self.heap_array[parent_idx]:
+            return True
+        else: 
+            return False
+
+    def pop(self):
+        if len(self.heap_array) <= 1:
+            return None
+        
+        returned_data = self.heap_array[1]
+        self.heap_array[1] = self.heap_array[-1]
+        del self.heap_array[-1]
+        poped_idx = 1
+
+        while self.move_down(poped_idx):
+            left_child_poped_idx = poped_idx * 2
+            right_child_poped_idx = poped_idx * 2 + 1
+            # 왼쪽 자식 노드만 있을 경우
+            if right_child_poped_idx >= len(self.heap_array):
+                if self.heap_array[poped_idx] < self.heap_array[left_child_poped_idx]:
+                    self.heap_array[poped_idx], self.heap_array[left_child_poped_idx] = self.heap_array[left_child_poped_idx], self.heap_array[poped_idx]
+                    poped_idx = left_child_poped_idx
+            # 왼쪽, 오른쪽 자식 노드 모두 있을 경우
+            else: 
+                if self.heap_array[left_child_poped_idx] > self.heap_array[right_child_poped_idx]:
+                    if self.heap_array[poped_idx] < self.heap_array[left_child_poped_idx]:
+                        self.heap_array[poped_idx], self.heap_array[left_child_poped_idx] = self.heap_array[left_child_poped_idx], self.heap_array[poped_idx]
+                        poped_idx = left_child_poped_idx
+                else:
+                    if self.heap_array[poped_idx] < self.heap_array[right_child_poped_idx]:
+                        self.heap_array[poped_idx], self.heap_array[right_child_poped_idx] = self.heap_array[right_child_poped_idx], self.heap_array[poped_idx]
+                        poped_idx = right_child_poped_idx
+
+        return returned_data
+
+    def move_down(self, poped_idx):
+        left_child_poped_idx = poped_idx * 2
+        right_child_poped_idx = poped_idx * 2 + 1
+
+        # 자식 노드가 없을 때
+        if left_child_poped_idx >= len(self.heap_array): 
+            return False
+        # 왼쪽 자식 노드만 있을 때
+        elif right_child_poped_idx >= len(self.heap_array):
+            if self.heap_array[poped_idx] < self.heap_array[left_child_poped_idx]:
+                return True
+            else:
+                return False
+        # 왼쪽, 오른쪽 자식 노드가 모두 있을 때
+        else: 
+            if self.heap_array[left_child_poped_idx] > self.heap_array[right_child_poped_idx]:
+                if self.heap_array[poped_idx] < self.heap_array[left_child_poped_idx]:
+                    return True
+                else:
+                    return False
+            else: 
+                if self.heap_array[poped_idx] < self.heap_array[right_child_poped_idx]:
+                    return True
+                else:
+                    return False
