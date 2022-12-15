@@ -1,0 +1,119 @@
+# Node: 트리에서 데이터를 저장하는 기본 요소(데이터와 다른 연결된 노드에 대한 Branch 정보를 포함)
+# Root Node: 트리 맨 위에 있는 노드
+# Level: 최상위 노드를 Level 0으로 했을 때 하위 Branch로 연결된 노드의 깊이를 나타냄
+# Parent Node: 어떤 노드의 상위 레벨에 연결된 노드
+# Child Node: 어떤 노드의 하위 레벨에 연결된 노드
+# Leaf Node: Child Node가 하나도 없는 노드
+# Sibling Node: 동일한 Parent Node를 가진 노드
+
+# 이진 트리: 노드의 최대 Branch가 2개인 트리
+# 이진 탐색 트리(Binary Search Tree, BST): 이진 트리에 추가적인 조건이 있는 트리
+# 왼쪽 노드는 해당 노드보다 작은 값이며 오른쪽 노드는 해당 노드보다 큰 값을 가지고 있다!
+# 장점: 탐색 속도를 개선할 수 있음
+<img src="https://www.mathwarehouse.com/programming/images/binary-search-tree/binary-search-tree-insertion-animation.gif">
+
+class Node: 
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class NodeMgmt:
+    def __init__(self, head):
+        self.head = head
+    
+    def insert(self, value):
+        self.current_node = self.head
+        while True:
+            if value < self.current_node.value:
+                if self.current_node.left != None:   # 왼쪽 branch 값이 비어있지 않다면...
+                    self.current_node = self.current_node.left
+                else:
+                    self.current_node.left = Node(value)
+                    break
+            else: 
+                if self.current_node.right != None:
+                    self.current_node = self.current_node.right
+                else:
+                    self.current_node.right = Node(value)
+                    break
+   
+    def search(self, value):
+        self.current_node = self.head
+        while self.current_node:
+            if self.current_node.value == value:
+                return True
+            elif value < self.current_node.value:
+                self.current_node = self.current_node.left
+            else:
+                self.current_node = self.current_node.right
+        return False
+    
+    def delete(self, value):
+        searched = False
+        self.current_node = self.head
+        self.parent = self.head
+        while self.current_node:
+            if self.current_node.value == value:
+                searched = True
+                break
+            elif value < self.current_node.value:
+                self.parent = self.current_node
+                self.current_node = self.current_node.left
+            else:
+                self.parent = self.current_node
+                self.current_node = self.current_node.right
+        if searched == False:
+            return False
+        
+        # 삭제할 노드가 Leaf Node인 경우
+        if self.current_node.left == None and self.current_node.right == None:
+            if value < self.parent.value:
+                self.parent.left = None
+            else:
+                self.parent.right = None
+        
+        # 삭제할 노드의 Child Node가 하나인 경우
+        if self.current_node.left != None and self.current_node.right == None:
+            if value < self.parent.value:
+                self.parent.left = self.current_node.left
+            else: 
+                self.parent.right = self.curent_node.left
+        elif self.current_node.left == None and self.current_node.right != None:
+            if value < self.parent.value:
+                self.parent.left = self.current_node.right
+            else:
+                self.parent.right = self.current_node.right
+
+        # 삭제할 노드의 Child Node가 두개인 경우
+        if self.current_node.left != None and self.curent_node.right != None:
+            if value < self.parent.value:
+                self.change_node = self.current_node.right
+                self.change_node_parent = self.current_node.right
+                while self.change_node.left != None:
+                    self.change_node_parent = self.change_node
+                    self.change_node = self.change_node.left
+                if self.change_node.right != None:
+                    self.change_node_parent.left = self.change_node.right
+                else: 
+                    self.change_node_parent.left = None
+                self.parent.left = self.change_node
+                self.change_node.right = self.current_node.right
+                self.change_node.left = self.current_node.left
+            else:
+                self.change_node = self.current_node.right
+                self.change_node_parent = self.current_node.right
+                while self.change_node.left != None:
+                    self.change_node_parent = self.change_node
+                    self.change_node = self.change_node.left
+                if self.change_node.right != None:
+                    self.change_node_parent.left = self.change_node.right
+                else: 
+                    self.change_node_parent.left = None
+                self.parent.right = self.change_node
+                self.change_node.right = self.current_node.right
+                self.change_node.left = self.current_node.left
+        return True
+
+
+        
