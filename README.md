@@ -6,8 +6,13 @@ a study record
 ### 1. 자료구조와 알고리즘 
 * Linked List
 
-* 
+* Tree
 
+* Heap
+
+* Recursive call
+
+* BFS/DFS
 
 ---
 
