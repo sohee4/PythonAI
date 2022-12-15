@@ -37,3 +37,75 @@ class NodeMgmt:
                     return 
                 else:
                     node = node.next                
+
+
+# Doubly Linked List
+class Node:
+    def __init__(self, data, prev = None, next = None):
+        self.prev = prev
+        self.data = data
+        self.next = next
+class NodeMgmt:
+    def __init__(self, data):
+        self.head = Node(data)
+        self.tail = self.head
+
+    def insert(self, data):
+        if self.head == None:
+            self.head = Node(data)
+            self.tail = self.head
+        else:
+            node = self.head
+            while node.next:
+                node = node.next
+            new = Node(data)
+            node.next = new
+            new.prev = node
+            self.tail = new
+
+    def node_print(self):
+        node = self.head
+        while node:
+            print(node.data)
+            node = node.next
+    
+    def insert_before(self, data, after_data):
+        if self.head == None:
+            self.head = Node(data)
+            return True
+        else:
+            node = self.tail
+            while node.data != after_data:
+                node = node.prev
+                if node == None:
+                    return False
+            new = Node(data)
+            before_new = node.prev # 원래 node.prev는 2를 가리키고 있었음, before_new: 2의 주소
+            before_new.next = new  # 2.5의 주소를 before_new.next에 저장, 2주소의 next는 2.5를 가리키게 됨
+            new.prev = before_new  # 2의 주소를 2.5의 prev에 저장함, 2.5의 prev는 2를 가리킴
+            new.next = node  # 현재 node의 주소를 new.next에 저장함, 2.5의 next는 3을 가리킴
+            node.prev = new  # 2.5의 주소를 3의 prev에 저장함, 3으 prev는 2.5를 가리킴
+            return True
+    
+    def search_from_head(self, data):
+        if self.head == None:
+            return False
+        node = self.head
+        while node:
+            if node.data == data:
+                return node.data
+            else:
+                node = node.next
+        return False
+
+    def search_from_tail(self, data):
+        if self.head == None:
+            return False
+        node = self.tail
+        while node:
+            if node.data == data:
+                return node.data
+            else:
+                node = node.prev
+        return False
+
