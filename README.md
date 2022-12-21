@@ -25,6 +25,8 @@
 
 * Matplotlib
 
+* Retail data project
+
 
 ---
 
