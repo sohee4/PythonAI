@@ -27,7 +27,9 @@
 
 * Retail data project
 
+* KoNLPy
 
+* Word cloud
 ---
 
 
