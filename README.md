@@ -30,6 +30,9 @@
 * KoNLPy
 
 * Word cloud
+
+* Folium
+
 ---
 
 
